@@ -1,5 +1,6 @@
 <template>
   <div>
+    <client-only>
     <div id="vertexShader">
       varying vec2 v_uv;
       varying vec2 v_uv1;
@@ -106,7 +107,8 @@
       //gl_FragColor = texture2D(videotex,v_uv);
       }
     </div>   
-
+    <div id="info">
+    </div>
     <div class="vid-cont"> 
       <video id="video_mech" class="video" crossorigin="anonymous"  src="https://h2m2k3r8.stackpathcdn.com/wp-content/uploads/2019/09/02_Mechanic_Full_1080.mp4" muted loop></video>
   
@@ -120,7 +122,7 @@
 
       <video id="video_scientist" class="video" crossorigin="anonymous" src="https://h2m2k3r8.stackpathcdn.com/wp-content/uploads/2019/09/04_Scientist_Full_1080.mp4" muted loop></video> 
     </div>
-
+    </client-only>
   </div>
 </template>
 
@@ -148,11 +150,9 @@ export default {
     }
 
   },
-  mounted() {
+  updated() {
 
-    document.body.addEventListener('mousedown', function() {
-      console.log('hello')
-    })
+    // document.body.addEventListener('touchmove', move)
 
     const scene = new THREE.Scene();
 
@@ -173,7 +173,8 @@ export default {
     const videoInit = function (name) {
       let v = document.getElementById(name); // getting video by name from html
       let videoOut = new THREE.VideoTexture(v); // initializing three.js video texture constructor
-    // v.pause(); // start playing videos
+      // v.pause(); // start playing videos
+      videoOut.image.autoplay = true
       return videoOut; // output - actually what is passed to array
     }
 
@@ -246,7 +247,12 @@ export default {
       let h = window.innerHeight;
       renderer.setSize(w,h);
       camera.aspect=w/h;
-      material.uniforms.uvRate1.value.y = (h/1)/(w/1.78); //custom aspect ratio ??
+      if(window.innerWidth <= 800  &&  window.innerHeight <= 600 ) {
+        material.uniforms.uvRate1.value.y = (h/1)/(w/0.58);
+      } else {
+        material.uniforms.uvRate1.value.y = (h/1)/(w/0.78);
+      }
+      // material.uniforms.uvRate1.value.y = (h/1)/(w/0.78); //custom aspect ratio ??
     //calculate scene
       let dist = camera.position.z-plane.position.z;
       let height = 1;
@@ -270,8 +276,32 @@ export default {
 
     let speed =0;
     let position = 0;
+    // setInterval(() => {
+    //   speed += 1*0.0006
+    // }, 10)
+
+    let lastY
+    let average;
+    $(document).bind('touchmove', function (e){
+        var currentY = e.originalEvent.touches[0].clientY;
+        if(currentY > lastY){
+          average = lastY + currentY
+          // speed += 1 * 0.006
+        }else if(currentY < lastY){
+          average = lastY - currentY
+          speed += -1 * 0.02
+          // console.log(average * 0.00006)
+        }
+        lastY = currentY;
+    });
+
+    document.body.addEventListener('touchmove', function(event) {
+      // console.log(event.touches[0].deltaY)                       
+      // speed += event.touches[0].clientX*0.00006; // vertical scroll speed                      
+    })
     document.addEventListener('wheel',function(event) {                       
-        speed += event.deltaY*0.0006; // vertical scroll speed                      
+        speed += event.deltaY*0.0006; // vertical scroll speed    
+        // console.log(event.deltaY*0.0006)                  
     })
 
     //let tll = new TimelineMax();
@@ -282,7 +312,7 @@ export default {
       
       let i = Math.round(position) 
       let dif = i - position; // distance between yellow point and white point
-      position += dif*0.01 // normalizing position
+      position += dif*0.02 // normalizing position
       // 
       if(Math.abs(i-position)<0.001) {
         position=i;
@@ -294,11 +324,11 @@ export default {
     uniforms.u_tex.value = gallery[curslide]; 
     uniforms.u_tex2.value = gallery[nextslide];
       
-    if (curposition > curslide+.2) {
-      console.log('hello')
+    // if (curposition > curslide+.2) {
+      // console.log('hello')
     //gallery[nextslide].image.style.background = "white";
     gallery[nextslide].image.play();
-      }
+      // }
     if (curposition == curslide) {
       
       function Q(root, selector) {
@@ -308,13 +338,16 @@ export default {
       }
       return root.querySelectorAll(selector)
     }
-      for (const el of Q(".video")) {
-      if (el != gallery[curslide] ) {
-      el.style.background = "red";
-          el.pause();
-            }    
-    }
+    //   for (const el of Q(".video")) {
+    //   if (el != gallery[curslide] ) {
+    //   el.style.background = "red";
+    //       el.pause();
+    //         }    
+    // }
     gallery[curslide].image.play();
+    // console.log(gallery)
+    // document.querySelector('#info').innerHTML = curslide
+    // alert(curslide)
     //  gallery[curslide].image.style.background = "green";
     }
     window.requestAnimationFrame(raf);
@@ -330,12 +363,25 @@ export default {
     display: none
   }
   body { margin: 0;padding:0 }
-  canvas { width: 100%; height: 100%;display:block }
+  canvas { 
+    width: 100%; 
+    height: 100%;
+    display:block;
+  }
   .vid-cont {position:absolute;top:50px;right:50px;overflow:hidden}
-  .video {display:none;border:1px solid rgba(255, 255, 255, 0.1);width:150px;margin-bottom:10px;background-color:red}
+  .video {display:none;border:1px solid rgba(255, 255, 255, 0.1);width:1px;margin-bottom:10px;background-color:red}
   .current {border:1px solid rgba(255, 255, 255, 0.5)}
   #video_techie {right:15vw;}
   #video_problem {right:30vw}
   #video_math {right:45vw}
   #video_scientist {right:60vw}
+  #info {
+    position: fixed;
+    z-index: 2;
+    width: 110px;
+    height: 40px;
+    color: white;
+    border: 3px dashed silver;
+
+  }
 </style>
