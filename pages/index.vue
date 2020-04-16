@@ -198,7 +198,7 @@ export default {
       u_color: { value: new THREE.Color(0xffdd33) },
       u_tex:{},
       u_tex2:{},
-      u_text:{value:new THREE.TextureLoader().load('https://www.ivashnev.com/wp-content/uploads/2020/01/text-test.jpg')},
+      u_text:{value:new THREE.TextureLoader().load('https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_960_720.jpg')},
       u_time: { value: 0.0 },
       progress: {type: 'f', value: 0},
       u_mouse: { value:{ x:0.0, y:0.0 }},
