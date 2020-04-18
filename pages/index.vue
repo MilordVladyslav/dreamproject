@@ -98,7 +98,7 @@
 
       vec4 textcombined = mix(text1,text2,delayValue);
 
-      vec4 textcolor = textcombined*vec4(1.0,.8,.0, 1.0);
+      vec4 textcolor = textcombined*vec4(1,1,0,1);
       //vec4 textcolor = textcombined;
 
       gl_FragColor = rgba+textcolor;
@@ -107,20 +107,14 @@
       //gl_FragColor = texture2D(videotex,v_uv);
       }
     </div>   
-    <div id="info">
-    </div>
+    <!-- <div id="info">
+    </div> -->
     <div class="vid-cont"> 
-      <video id="video_mech" class="video" crossorigin="anonymous"  src="https://h2m2k3r8.stackpathcdn.com/wp-content/uploads/2019/09/02_Mechanic_Full_1080.mp4" muted loop></video>
-  
-      <video id="video_techie" class="video" crossorigin="anonymous"  src="https://h2m2k3r8.stackpathcdn.com/wp-content/uploads/2019/10/MOS-Cat-03-Techie-Composited-1080.mp4" muted loop></video>
-
-      <video id="video_problem" class="video" crossorigin="anonymous" src="https://h2m2k3r8.stackpathcdn.com/wp-content/uploads/2019/09/07_Problem_Solver_Full_1080.mp4" muted loop></video> 
-        
-      <video id="video_problem1" class="video" crossorigin="anonymous" src="https://h2m2k3r8.stackpathcdn.com/wp-content/uploads/2019/10/01_Wordsmith_Full_1080.mp4" muted loop></video> 
-
-      <video id="video_math" class="video" crossorigin="anonymous"  src="https://h2m2k3r8.stackpathcdn.com/wp-content/uploads/2019/09/06_Math_Wiz_Full_1080.mp4" muted loop></video> 
-
-      <video id="video_scientist" class="video" crossorigin="anonymous" src="https://h2m2k3r8.stackpathcdn.com/wp-content/uploads/2019/09/04_Scientist_Full_1080.mp4" muted loop></video> 
+      <img id="video_mech" class="video" src="../assets/Group_2.png"/>
+      <img id="video_techie" class="video" crossorigin="anonymous"  src="../assets/Group_plus_biger.png"/>
+      <img id="video_third" class="video" crossorigin="anonymous"  src="../assets/cubes_biggest_pattern.png"/>
+      <img id="video_fourth" class="video" src="../assets/Group_1.png">
+      <img id="video_fifth" class="video" src="../assets/email_pattern_big.png">
     </div>
     </client-only>
   </div>
@@ -172,9 +166,12 @@ export default {
     // this function find mp4 from html by id and initializing Three.js video texture function
     const videoInit = function (name) {
       let v = document.getElementById(name); // getting video by name from html
-      let videoOut = new THREE.VideoTexture(v); // initializing three.js video texture constructor
+      console.log(v.src)
+      let videoOut = new THREE.TextureLoader().load(v.src); // initializing three.js video texture constructor
+      videoOut.wrapS = THREE.RepeatWrapping;
+      videoOut.wrapT = THREE.RepeatWrapping;
+      videoOut.repeat.set( 2, 2 );
       // v.pause(); // start playing videos
-      videoOut.image.autoplay = true
       return videoOut; // output - actually what is passed to array
     }
 
@@ -183,11 +180,10 @@ export default {
 
     // this method is pushing previously initialized videos in videoInit() function
     gallery.push(videoInit('video_mech'),
-                videoInit('video_techie'),
-                videoInit('video_problem'),
-                videoInit('video_problem1'),
-                videoInit('video_math'),
-                videoInit('video_scientist'));
+                videoInit('video_third'),
+                videoInit('video_fourth'),
+                videoInit('video_fifth'),
+                videoInit('video_techie'));
 
 
 
@@ -198,7 +194,7 @@ export default {
       u_color: { value: new THREE.Color(0xffdd33) },
       u_tex:{},
       u_tex2:{},
-      u_text:{value:new THREE.TextureLoader().load('https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_960_720.jpg')},
+      u_text:{value:new THREE.TextureLoader().load('../assets/itengine.png')},
       u_time: { value: 0.0 },
       progress: {type: 'f', value: 0},
       u_mouse: { value:{ x:0.0, y:0.0 }},
@@ -250,7 +246,7 @@ export default {
       if(window.innerWidth <= 800  &&  window.innerHeight <= 600 ) {
         material.uniforms.uvRate1.value.y = (h/1)/(w/0.58);
       } else {
-        material.uniforms.uvRate1.value.y = (h/1)/(w/0.78);
+        material.uniforms.uvRate1.value.y = (h+h/2)/(w/1);
       }
       // material.uniforms.uvRate1.value.y = (h/1)/(w/0.78); //custom aspect ratio ??
     //calculate scene
@@ -327,7 +323,7 @@ export default {
     // if (curposition > curslide+.2) {
       // console.log('hello')
     //gallery[nextslide].image.style.background = "white";
-    gallery[nextslide].image.play();
+    // gallery[nextslide].image.play();
       // }
     if (curposition == curslide) {
       
@@ -344,7 +340,7 @@ export default {
     //       el.pause();
     //         }    
     // }
-    gallery[curslide].image.play();
+    // gallery[curslide].image.play();
     // console.log(gallery)
     // document.querySelector('#info').innerHTML = curslide
     // alert(curslide)
