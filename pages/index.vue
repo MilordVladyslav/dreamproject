@@ -98,7 +98,7 @@
 
       vec4 textcombined = mix(text1,text2,delayValue);
 
-      vec4 textcolor = textcombined*vec4(1,1,0,1);
+      vec4 textcolor = textcombined*vec4(1.0,0.0,0.0,1.0);
       //vec4 textcolor = textcombined;
 
       gl_FragColor = rgba+textcolor;
@@ -110,9 +110,9 @@
     <!-- <div id="info">
     </div> -->
     <div class="vid-cont"> 
-      <img id="video_mech" class="video" src="../assets/Group_2.png"/>
-      <img id="video_techie" class="video" crossorigin="anonymous"  src="../assets/Group_plus_biger.png"/>
-      <img id="video_third" class="video" crossorigin="anonymous"  src="../assets/cubes_biggest_pattern.png"/>
+      <img id="video_mech" class="video" src="../assets/stardust_big.png"/>
+      <img id="video_techie" class="video" crossorigin="anonymous"  src="../assets/squares_dark_big.png"/>
+      <img id="video_third" class="video" crossorigin="anonymous"  src="../assets/math_squares_dark_biggest.png"/>
       <img id="video_fourth" class="video" src="../assets/Group_1.png">
       <img id="video_fifth" class="video" src="../assets/email_pattern_big.png">
     </div>
@@ -170,7 +170,7 @@ export default {
       let videoOut = new THREE.TextureLoader().load(v.src); // initializing three.js video texture constructor
       videoOut.wrapS = THREE.RepeatWrapping;
       videoOut.wrapT = THREE.RepeatWrapping;
-      videoOut.repeat.set( 2, 2 );
+      videoOut.repeat.set( 1, 1 );
       // v.pause(); // start playing videos
       return videoOut; // output - actually what is passed to array
     }
@@ -194,7 +194,7 @@ export default {
       u_color: { value: new THREE.Color(0xffdd33) },
       u_tex:{},
       u_tex2:{},
-      u_text:{value:new THREE.TextureLoader().load('../assets/itengine.png')},
+      u_text:{value:new THREE.TextureLoader().load('https://www.ivashnev.com/wp-content/uploads/2020/01/text-test.jpg')},
       u_time: { value: 0.0 },
       progress: {type: 'f', value: 0},
       u_mouse: { value:{ x:0.0, y:0.0 }},
@@ -210,10 +210,9 @@ export default {
     const geometry = new THREE.PlaneGeometry( 1, 1,1,1 );
 
     const material = new THREE.ShaderMaterial( {
-      uniforms: uniforms,
       vertexShader: document.getElementById( 'vertexShader' ).textContent,
-      fragmentShader: document.getElementById('fragmentShader').textContent
-      
+      fragmentShader: document.getElementById('fragmentShader').textContent,
+      uniforms: uniforms,      
     } );
 
     const plane = new THREE.Mesh( geometry, material );
