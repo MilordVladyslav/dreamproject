@@ -20,6 +20,7 @@
       uniform sampler2D u_tex;
       uniform sampler2D u_tex2;
       uniform sampler2D u_text;
+      uniform sampler2D u_text2;
       uniform sampler2D videotex;
       uniform vec2 u_resolution;
 
@@ -82,18 +83,18 @@
       vec2 uv_distortedtext2 = v_uv1 + translatevaluetext2 + xytext;
 
       vec4 text1 = texture2D(u_text,mirrored(uv_distortedtext1));
-      vec4 text2 = texture2D(u_text,mirrored(uv_distortedtext2));
+      vec4 text2 = texture2D(u_text2,mirrored(uv_distortedtext2));
 
       // text rgb shift 
 
       text1.r = texture2D(u_text,mirrored(uv_distortedtext1) + vec2(0.0,0.01)*translatevaluetext1).r;
-      text2.r = texture2D(u_text,mirrored(uv_distortedtext2) + vec2(0.0,0.01)*translatevaluetext2).r;
+      text2.r = texture2D(u_text2,mirrored(uv_distortedtext2) + vec2(0.0,0.01)*translatevaluetext2).r;
 
       text1.g = texture2D(u_text,mirrored(uv_distortedtext1) + vec2(0.0,0.02)*translatevaluetext1).g;
-      text2.g = texture2D(u_text,mirrored(uv_distortedtext2) + vec2(0.0,0.02)*translatevaluetext2).g;
+      text2.g = texture2D(u_text2,mirrored(uv_distortedtext2) + vec2(0.0,0.02)*translatevaluetext2).g;
 
       text1.b = texture2D(u_text,mirrored(uv_distortedtext1) + vec2(0.0,0.03)*translatevaluetext1).b;
-      text2.b = texture2D(u_text,mirrored(uv_distortedtext2) + vec2(0.0,0.03)*translatevaluetext2).b;
+      text2.b = texture2D(u_text2,mirrored(uv_distortedtext2) + vec2(0.0,0.03)*translatevaluetext2).b;
 
 
       vec4 textcombined = mix(text1,text2,delayValue);
@@ -112,9 +113,9 @@
     <div class="vid-cont"> 
       <img id="video_mech" class="video" src="../assets/stardust_big.png"/>
       <img id="video_techie" class="video" crossorigin="anonymous"  src="../assets/squares_dark_big.png"/>
-      <img id="video_third" class="video" crossorigin="anonymous"  src="../assets/math_squares_dark_biggest.png"/>
-      <img id="video_fourth" class="video" src="../assets/Group_1.png">
-      <img id="video_fifth" class="video" src="../assets/email_pattern_big.png">
+      <img id="video_third" class="video" crossorigin="anonymous"  src="../assets/Group_1.png"/>
+      <img id="video_fourth" class="video" src="../assets/square_across_dark_pattern_big.png">
+      <img id="video_fifth" class="video" src="../assets/cube_triangle_pattern_big.png">
     </div>
     </client-only>
   </div>
@@ -187,14 +188,13 @@ export default {
 
 
 
-    // console.log(gallery[0].image.id);
-
 
     const uniforms = {
       u_color: { value: new THREE.Color(0xffdd33) },
       u_tex:{},
       u_tex2:{},
       u_text:{value:new THREE.TextureLoader().load('https://www.ivashnev.com/wp-content/uploads/2020/01/text-test.jpg')},
+      u_text2: {value:new THREE.TextureLoader().load('../assets/itengine.png')},
       u_time: { value: 0.0 },
       progress: {type: 'f', value: 0},
       u_mouse: { value:{ x:0.0, y:0.0 }},
@@ -207,7 +207,7 @@ export default {
 
 
 
-    const geometry = new THREE.PlaneGeometry( 1, 1,1,1 );
+    const geometry = new THREE.PlaneGeometry( 1, 1, 1, 1 );
 
     const material = new THREE.ShaderMaterial( {
       vertexShader: document.getElementById( 'vertexShader' ).textContent,
@@ -223,7 +223,6 @@ export default {
     if ('ontouchstart' in window){
       document.addEventListener('touchmove', move);
     }else{
-      //window.addEventListener( 'resize', onWindowResize, false );
       window.addEventListener( 'resize', resize, false );
       document.addEventListener('mousemove', move);
     }
@@ -271,32 +270,21 @@ export default {
 
     let speed =0;
     let position = 0;
-    // setInterval(() => {
-    //   speed += 1*0.0006
-    // }, 10)
-
     let lastY
     let average;
     $(document).bind('touchmove', function (e){
         var currentY = e.originalEvent.touches[0].clientY;
         if(currentY > lastY){
           average = lastY + currentY
-          // speed += 1 * 0.006
         }else if(currentY < lastY){
           average = lastY - currentY
           speed += -1 * 0.02
-          // console.log(average * 0.00006)
         }
         lastY = currentY;
     });
 
-    document.body.addEventListener('touchmove', function(event) {
-      // console.log(event.touches[0].deltaY)                       
-      // speed += event.touches[0].clientX*0.00006; // vertical scroll speed                      
-    })
     document.addEventListener('wheel',function(event) {                       
-        speed += event.deltaY*0.0006; // vertical scroll speed    
-        // console.log(event.deltaY*0.0006)                  
+        speed += event.deltaY*0.0006; // vertical scroll speed                    
     })
 
     //let tll = new TimelineMax();
@@ -318,32 +306,16 @@ export default {
     let curposition =  ((position + 0)%gallery.length + gallery.length)%gallery.length;
     uniforms.u_tex.value = gallery[curslide]; 
     uniforms.u_tex2.value = gallery[nextslide];
-      
-    // if (curposition > curslide+.2) {
-      // console.log('hello')
-    //gallery[nextslide].image.style.background = "white";
-    // gallery[nextslide].image.play();
-      // }
+    
     if (curposition == curslide) {
       
-      function Q(root, selector) {
-      if (typeof root === "string") {
-        selector = root
-        root = document
+        function Q(root, selector) {
+        if (typeof root === "string") {
+          selector = root
+          root = document
+        }
+        return root.querySelectorAll(selector)
       }
-      return root.querySelectorAll(selector)
-    }
-    //   for (const el of Q(".video")) {
-    //   if (el != gallery[curslide] ) {
-    //   el.style.background = "red";
-    //       el.pause();
-    //         }    
-    // }
-    // gallery[curslide].image.play();
-    // console.log(gallery)
-    // document.querySelector('#info').innerHTML = curslide
-    // alert(curslide)
-    //  gallery[curslide].image.style.background = "green";
     }
     window.requestAnimationFrame(raf);
     }
