@@ -194,15 +194,15 @@ export default {
           text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio_text.png'),
           route: '/portfolio'
         },
-                {
-          background: videoInit('video_fourth'),
-          text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/contacts_text.png'),
-          route: '/contacts'
-        },
         {
           background: videoInit('video_third'),
           text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/blog_text.png'),
           route: '/blog'
+        },
+        {
+          background: videoInit('video_fourth'),
+          text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/contacts_text.png'),
+          route: '/contacts'
         },
         // {
         //   background: videoInit('video_fifth'),
