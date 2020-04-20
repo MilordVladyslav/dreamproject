@@ -36,7 +36,13 @@
       */
       vec2 mirrored(vec2 v) {
           vec2 m = mod(v,2.);
-          <!-- return mix(m,2.0-m,step(1.0,m)); -->
+          return mix(m,2.0-m,step(1.0,m));
+          return m;
+      }
+
+      vec2 textmirrored(vec2 v) {
+          vec2 m = mod(v,2.);
+          //return mix(m,2.0-m,step(1.0,m));
           return m;
       }
 
@@ -88,14 +94,14 @@
 
       // text rgb shift 
 
-      text1.r = texture2D(u_text,mirrored(uv_distortedtext1) + vec2(0.0,0.01)*translatevaluetext1).r;
-      text2.r = texture2D(u_text2,mirrored(uv_distortedtext2) + vec2(0.0,0.01)*translatevaluetext2).r;
+      text1.r = texture2D(u_text,textmirrored(uv_distortedtext1) + vec2(0.0,0.01)*translatevaluetext1).r;
+      text2.r = texture2D(u_text2,textmirrored(uv_distortedtext2) + vec2(0.0,0.01)*translatevaluetext2).r;
 
-      text1.g = texture2D(u_text,mirrored(uv_distortedtext1) + vec2(0.0,0.02)*translatevaluetext1).g;
-      text2.g = texture2D(u_text2,mirrored(uv_distortedtext2) + vec2(0.0,0.02)*translatevaluetext2).g;
+      text1.g = texture2D(u_text,textmirrored(uv_distortedtext1) + vec2(0.0,0.02)*translatevaluetext1).g;
+      text2.g = texture2D(u_text2,textmirrored(uv_distortedtext2) + vec2(0.0,0.02)*translatevaluetext2).g;
 
-      text1.b = texture2D(u_text,mirrored(uv_distortedtext1) + vec2(0.0,0.03)*translatevaluetext1).b;
-      text2.b = texture2D(u_text2,mirrored(uv_distortedtext2) + vec2(0.0,0.03)*translatevaluetext2).b;
+      text1.b = texture2D(u_text,textmirrored(uv_distortedtext1) + vec2(0.0,0.03)*translatevaluetext1).b;
+      text2.b = texture2D(u_text2,textmirrored(uv_distortedtext2) + vec2(0.0,0.03)*translatevaluetext2).b;
 
 
       vec4 textcombined = mix(text1,text2,delayValue);
@@ -111,11 +117,11 @@
     </div>   
 
     <div class="vid-cont"> 
-      <img id="video_mech" class="video" src="../assets/stardust_big.png"/>
-      <img id="video_techie" class="video" src="../assets/squares_dark_big.png"/>
-      <img id="video_third" class="video" src="../assets/math_squares_dark_biggest.png"/>
-      <img id="video_fourth" class="video" src="../assets/square_across_dark_pattern_big.png">
-      <img id="video_fifth" class="video" src="../assets/cube_triangle_pattern_big.png">
+      <img id="video_mech" class="video" src="../assets/triangles-download(1).png"/>
+      <img id="video_techie" class="video" src="../assets/triangles-download(1).png"/>
+      <img id="video_third" class="video" src="../assets/triangles-download(1).png"/>
+      <img id="video_fourth" class="video" src="../assets/triangles-download(1).png">
+      <img id="video_fifth" class="video" src="../assets/triangles-download(1).png">
     </div>
     </client-only>
   </div>
