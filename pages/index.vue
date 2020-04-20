@@ -191,25 +191,25 @@ export default {
     gallery.push(
         {
           background: videoInit('video_mech'),
-          text: new THREE.TextureLoader().load('https://www.ivashnev.com/wp-content/uploads/2020/01/text-test.jpg'),
-          route: '/'
+          text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio_text.png'),
+          route: '/portfolio'
+        },
+                {
+          background: videoInit('video_fourth'),
+          text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/contacts_text.png'),
+          route: '/contacts'
         },
         {
           background: videoInit('video_third'),
-          text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio.png'),
-          route: '/portfolio'
-        },
-        {
-          background: videoInit('video_fourth'),
-          text: new THREE.TextureLoader().load('https://www.ivashnev.com/wp-content/uploads/2020/01/text-test.jpg'),
+          text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/blog_text.png'),
           route: '/blog'
         },
-        {
-          background: videoInit('video_fifth'),
-          text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio.png'),
-          route: '/contacts'
+        // {
+        //   background: videoInit('video_fifth'),
+        //   text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio.png'),
+        //   route: '/contacts'
 
-        },
+        // },
         // {
         //   background: videoInit('video_techie'),
         //   text: new THREE.TextureLoader().load('https://www.ivashnev.com/wp-content/uploads/2020/01/text-test.jpg')
@@ -223,8 +223,8 @@ export default {
       u_color: { value: new THREE.Color(0xffdd33) },
       u_tex:{},
       u_tex2:{},
-      u_text:{value:new THREE.TextureLoader().load('https://www.ivashnev.com/wp-content/uploads/2020/01/text-test.jpg')},
-      u_text2: {value:new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio.png')},
+      u_text:{value:new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio_text.png')},
+      u_text2: {value:new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/blog_text.png')},
       u_time: { value: 0.0 },
       progress: {type: 'f', value: 0},
       u_mouse: { value:{ x:0.0, y:0.0 }},
@@ -338,7 +338,7 @@ export default {
     uniforms.u_tex2.value = gallery[nextslide].background;
     uniforms.u_text.value = gallery[curslide].text;
     uniforms.u_text2.value = gallery[nextslide].text
-    const navigate = Math.round(curposition) !== 4 ? Math.round(curposition) : 0 
+    const navigate = Math.round(curposition) !== gallery.length ? Math.round(curposition) : 0 
     console.log(curposition)
     this.currentPage = gallery[Math.round(navigate)].route
     
