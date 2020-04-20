@@ -36,7 +36,8 @@
       */
       vec2 mirrored(vec2 v) {
           vec2 m = mod(v,2.);
-          return mix(m,2.0-m,step(1.0,m));
+          <!-- return mix(m,2.0-m,step(1.0,m)); -->
+          return m;
       }
 
       /*
@@ -113,7 +114,7 @@
     <div class="vid-cont"> 
       <img id="video_mech" class="video" src="../assets/stardust_big.png"/>
       <img id="video_techie" class="video" crossorigin="anonymous"  src="../assets/squares_dark_big.png"/>
-      <img id="video_third" class="video" crossorigin="anonymous"  src="../assets/Group_1.png"/>
+      <img id="video_third" class="video" crossorigin="anonymous"  src="../assets/math_squares_dark_biggest.png"/>
       <img id="video_fourth" class="video" src="../assets/square_across_dark_pattern_big.png">
       <img id="video_fifth" class="video" src="../assets/cube_triangle_pattern_big.png">
     </div>
@@ -145,9 +146,16 @@ export default {
     }
 
   },
+  data() {
+    return {
+      currentPage: ''
+    }
+  },
   updated() {
 
-    // document.body.addEventListener('touchmove', move)
+    document.body.addEventListener('click', () => {
+      alert(this.currentPage)
+    })
 
     const scene = new THREE.Scene();
 
@@ -180,11 +188,33 @@ export default {
     let gallery = [];
 
     // this method is pushing previously initialized videos in videoInit() function
-    gallery.push(videoInit('video_mech'),
-                videoInit('video_third'),
-                videoInit('video_fourth'),
-                videoInit('video_fifth'),
-                videoInit('video_techie'));
+    gallery.push(
+        {
+          background: videoInit('video_mech'),
+          text: new THREE.TextureLoader().load('https://www.ivashnev.com/wp-content/uploads/2020/01/text-test.jpg'),
+          route: '/'
+        },
+        {
+          background: videoInit('video_third'),
+          text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio.png'),
+          route: '/portfolio'
+        },
+        {
+          background: videoInit('video_fourth'),
+          text: new THREE.TextureLoader().load('https://www.ivashnev.com/wp-content/uploads/2020/01/text-test.jpg'),
+          route: '/blog'
+        },
+        {
+          background: videoInit('video_fifth'),
+          text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio.png'),
+          route: '/contacts'
+
+        },
+        // {
+        //   background: videoInit('video_techie'),
+        //   text: new THREE.TextureLoader().load('https://www.ivashnev.com/wp-content/uploads/2020/01/text-test.jpg')
+        // }
+      );
 
 
 
@@ -194,7 +224,7 @@ export default {
       u_tex:{},
       u_tex2:{},
       u_text:{value:new THREE.TextureLoader().load('https://www.ivashnev.com/wp-content/uploads/2020/01/text-test.jpg')},
-      u_text2: {value:new THREE.TextureLoader().load('../assets/itengine.png')},
+      u_text2: {value:new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio.png')},
       u_time: { value: 0.0 },
       progress: {type: 'f', value: 0},
       u_mouse: { value:{ x:0.0, y:0.0 }},
@@ -241,11 +271,11 @@ export default {
       let h = window.innerHeight;
       renderer.setSize(w,h);
       camera.aspect=w/h;
-      if(window.innerWidth <= 800  &&  window.innerHeight <= 600 ) {
-        material.uniforms.uvRate1.value.y = (h/1)/(w/0.58);
-      } else {
+      // if(window.innerWidth <= 800  &&  window.innerHeight <= 600 ) {
+      //   material.uniforms.uvRate1.value.y = (h/1)/(w/0.58);
+      // } else {
         material.uniforms.uvRate1.value.y = (h+h/2)/(w/1);
-      }
+      // }
       // material.uniforms.uvRate1.value.y = (h/1)/(w/0.78); //custom aspect ratio ??
     //calculate scene
       let dist = camera.position.z-plane.position.z;
@@ -289,7 +319,7 @@ export default {
 
     //let tll = new TimelineMax();
 
-    function raf() {
+    const raf = () => {
       position += speed;
       speed *=0.7; // we slowing down our scroll by multiplying
       
@@ -304,8 +334,13 @@ export default {
     let curslide =  ((Math.floor(position) + 0)%gallery.length + gallery.length)%gallery.length;  
     let nextslide = (((Math.floor(position) + 0)%gallery.length +1) + gallery.length)%gallery.length;
     let curposition =  ((position + 0)%gallery.length + gallery.length)%gallery.length;
-    uniforms.u_tex.value = gallery[curslide]; 
-    uniforms.u_tex2.value = gallery[nextslide];
+    uniforms.u_tex.value = gallery[curslide].background; 
+    uniforms.u_tex2.value = gallery[nextslide].background;
+    uniforms.u_text.value = gallery[curslide].text;
+    uniforms.u_text2.value = gallery[nextslide].text
+    const navigate = Math.round(curposition) !== 4 ? Math.round(curposition) : 0 
+    console.log(curposition)
+    this.currentPage = gallery[Math.round(navigate)].route
     
     if (curposition == curslide) {
       
