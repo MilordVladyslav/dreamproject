@@ -109,12 +109,11 @@
       //gl_FragColor = texture2D(videotex,v_uv);
       }
     </div>   
-    <!-- <div id="info">
-    </div> -->
+
     <div class="vid-cont"> 
       <img id="video_mech" class="video" src="../assets/stardust_big.png"/>
-      <img id="video_techie" class="video" crossorigin="anonymous"  src="../assets/squares_dark_big.png"/>
-      <img id="video_third" class="video" crossorigin="anonymous"  src="../assets/math_squares_dark_biggest.png"/>
+      <img id="video_techie" class="video" src="../assets/squares_dark_big.png"/>
+      <img id="video_third" class="video" src="../assets/math_squares_dark_biggest.png"/>
       <img id="video_fourth" class="video" src="../assets/square_across_dark_pattern_big.png">
       <img id="video_fifth" class="video" src="../assets/cube_triangle_pattern_big.png">
     </div>
@@ -190,20 +189,25 @@ export default {
     // this method is pushing previously initialized videos in videoInit() function
     gallery.push(
         {
+          id: 1,
           background: videoInit('video_mech'),
           text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio_text.png'),
           route: '/portfolio'
         },
         {
+          id: 2,
           background: videoInit('video_third'),
           text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/blog_text.png'),
           route: '/blog'
         },
         {
+          id: 3,
           background: videoInit('video_fourth'),
           text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/contacts_text.png'),
           route: '/contacts'
         },
+
+
         // {
         //   background: videoInit('video_fifth'),
         //   text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio.png'),
@@ -215,6 +219,9 @@ export default {
         //   text: new THREE.TextureLoader().load('https://www.ivashnev.com/wp-content/uploads/2020/01/text-test.jpg')
         // }
       );
+      gallery.sort(function(a, b) {
+        return a.id - b.id;
+      });
 
 
 
