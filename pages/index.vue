@@ -1848,19 +1848,19 @@ FSS.SVGRenderer.prototype.formatStyle = function(color) {
       gallery.push(
           {
             id: 1,
-            background: videoInit('video_mech'),
+            background: {},
             text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio_text.png'),
             route: '/portfolio'
           },
           {
             id: 2,
-            background: videoInit('video_third'),
+            background: {},
             text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/blog_text.png'),
             route: '/blog'
           },
           {
             id: 3,
-            background: videoInit('video_fourth'),
+            background: {},
             text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/contacts_text.png'),
             route: '/contacts'
           },
@@ -1999,10 +1999,6 @@ FSS.SVGRenderer.prototype.formatStyle = function(color) {
     let curslide =  ((Math.floor(position) + 0)%gallery.length + gallery.length)%gallery.length;  
     let nextslide = (((Math.floor(position) + 0)%gallery.length +1) + gallery.length)%gallery.length;
     let curposition =  ((position + 0)%gallery.length + gallery.length)%gallery.length;
-    let canva = document.getElementById('output').children[0]
-    gallery[curslide].background = videoInit(canva)
-    uniforms.u_tex.value = gallery[curslide].background; 
-    uniforms.u_tex2.value = gallery[nextslide].background = videoInit(canva)
     uniforms.u_text.value = gallery[curslide].text;
     uniforms.u_text2.value = gallery[nextslide].text
     const navigate = Math.round(curposition) !== gallery.length ? Math.round(curposition) : 0 
@@ -2059,7 +2055,8 @@ FSS.SVGRenderer.prototype.formatStyle = function(color) {
   }
 
   #output canvas {
-    opacity: 0;
+    opacity: 0.5;
+    position: relative;
   }
 
   #controls {
