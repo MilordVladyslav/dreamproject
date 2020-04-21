@@ -1429,6 +1429,8 @@ FSS.SVGRenderer.prototype.formatStyle = function(color) {
     renderer: CANVAS
   };
 
+
+
   //------------------------------
   // Export Properties
   //------------------------------
@@ -1617,7 +1619,7 @@ FSS.SVGRenderer.prototype.formatStyle = function(color) {
     now = Date.now() - start;
     update();
     render();
-    // requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
   }
 
   function update() {
@@ -1725,114 +1727,6 @@ FSS.SVGRenderer.prototype.formatStyle = function(color) {
     container.addEventListener('mousemove', onMouseMove);
   }
 
-  function addControls() {
-    var i, l, light, folder, controller;
-
-    // Create GUI
-    gui = new dat.GUI({autoPlace:false});
-    controls.appendChild(gui.domElement);
-
-    // Create folders
-    uiFolder = gui.addFolder('UI');
-    renderFolder = gui.addFolder('Render');
-    meshFolder = gui.addFolder('Mesh');
-    lightFolder = gui.addFolder('Light');
-    exportFolder = gui.addFolder('Export');
-
-    // Open folders
-    uiFolder.open();
-    renderFolder.open();
-    // meshFolder.open();
-    lightFolder.open();
-    // exportFolder.open();
-
-    // Add UI Controls
-    controller = uiFolder.add(UI, 'show');
-    controller.onChange(function(value) {
-      ui.className = value ? 'wrapper' : 'wrapper hide';
-    });
-
-    // Add Render Controls
-    controller = renderFolder.add(RENDER, 'renderer', {webgl:WEBGL, canvas:CANVAS, svg:SVG});
-    controller.onChange(function(value) {
-      setRenderer(value);
-    });
-
-    // Add Mesh Controls
-    controller = meshFolder.addColor(MESH, 'ambient');
-    controller.onChange(function(value) {
-      for (i = 0, l = scene.meshes.length; i < l; i++) {
-        scene.meshes[i].material.ambient.set(value);
-      }
-    });
-    controller = meshFolder.addColor(MESH, 'diffuse');
-    controller.onChange(function(value) {
-      for (i = 0, l = scene.meshes.length; i < l; i++) {
-        scene.meshes[i].material.diffuse.set(value);
-      }
-    });
-    controller = meshFolder.add(MESH, 'width', 0.05, 2);
-    controller.onChange(function(value) {
-      if (geometry.width !== value * renderer.width) { createMesh(); }
-    });
-    controller = meshFolder.add(MESH, 'height', 0.05, 2);
-    controller.onChange(function(value) {
-      if (geometry.height !== value * renderer.height) { createMesh(); }
-    });
-    controller = meshFolder.add(MESH, 'depth', 0, 50);
-    controller = meshFolder.add(MESH, 'segments', 1, 20);
-    controller.step(1);
-    controller.onChange(function(value) {
-      if (geometry.segments !== value) { createMesh(); }
-    });
-    controller = meshFolder.add(MESH, 'slices', 1, 20);
-    controller.step(1);
-    controller.onChange(function(value) {
-      if (geometry.slices !== value) { createMesh(); }
-    });
-    controller = meshFolder.add(MESH, 'xRange', 0, 1);
-    controller = meshFolder.add(MESH, 'yRange', 0, 1);
-    controller = meshFolder.add(MESH, 'speed', 0, 0.01);
-
-    // Add Light Controls
-    autopilotController = lightFolder.add(LIGHT, 'autopilot');
-    controller = lightFolder.addColor(LIGHT, 'ambient');
-    controller.onChange(function(value) {
-      for (i = 0, l = scene.lights.length; i < l; i++) {
-        light = scene.lights[i];
-        light.ambient.set(value);
-        light.ambientHex = light.ambient.format();
-      }
-    });
-    controller = lightFolder.addColor(LIGHT, 'diffuse');
-    controller.onChange(function(value) {
-      for (i = 0, l = scene.lights.length; i < l; i++) {
-        light = scene.lights[i];
-        light.diffuse.set(value);
-        light.diffuseHex = light.diffuse.format();
-      }
-    });
-    controller = lightFolder.add(LIGHT, 'count', 0, 5);
-    controller.step(1);
-    controller.onChange(function(value) {
-      if (scene.lights.length !== value) { createLights(); }
-    });
-    controller = lightFolder.add(LIGHT, 'zOffset', 0, 500);
-    controller.step(1);
-
-    // Add Export Controls
-    controller = exportFolder.add(EXPORT, 'width', 100, 4000);
-    controller.step(100);
-    controller = exportFolder.add(EXPORT, 'height', 100, 4000);
-    controller.step(100);
-    controller = exportFolder.add(EXPORT, 'drawLights');
-    controller = exportFolder.add(EXPORT, 'minLightX', 0, 1);
-    controller = exportFolder.add(EXPORT, 'maxLightX', 0, 1);
-    controller = exportFolder.add(EXPORT, 'minLightY', 0, 1);
-    controller = exportFolder.add(EXPORT, 'maxLightY', 0, 1);
-    controller = exportFolder.add(EXPORT, 'export');
-  }
-
   //------------------------------
   // Callbacks
   //------------------------------
@@ -1860,12 +1754,64 @@ FSS.SVGRenderer.prototype.formatStyle = function(color) {
 
 })();
 
+
+
+
+
+  // var MESH = {
+  //   width: 1.2,
+  //   height: 1.2,
+  //   depth: 10,
+  //   segments: 16,
+  //   slices: 8,
+  //   xRange: 0.8,
+  //   yRange: 0.1,
+  //   zRange: 1.0,
+  //   ambient: '#555555',
+  //   diffuse: '#FFFFFF',
+  //   speed: 0.002
+  // };
+    
+
+
+
+  // var LIGHT = {
+  //   count: 2,
+  //   xyScalar: 1,
+  //   zOffset: 100,
+  //   ambient: '#880066',
+  //   diffuse: '#FF8800',
+  //   speed: 0.001,
+  //   gravity: 1200,
+  //   dampening: 0.95,
+  //   minLimit: 10,
+  //   maxLimit: null,
+  //   minDistance: 20,
+  //   maxDistance: 400,
+  //   autopilot: false,
+  //   draw: true,
+  //   bounds: FSS.Vector3.create(),
+  //   step: FSS.Vector3.create(
+  //     Math.randomInRange(0.2, 1.0),
+  //     Math.randomInRange(0.2, 1.0),
+  //     Math.randomInRange(0.2, 1.0)
+  //   )
+  // };
+
+
+
+
+
+
+
+
+
+
+
+
+
   // updated() {
-
-    document.body.addEventListener('click', () => {
-      alert(this.currentPage)
-    })
-
+    // let canva = document.getElementById('output').children[0]
     const scene = new THREE.Scene();
 
     const camera = new THREE.PerspectiveCamera(
@@ -1882,60 +1828,62 @@ FSS.SVGRenderer.prototype.formatStyle = function(color) {
     const clock = new THREE.Clock();
 
     // this function find mp4 from html by id and initializing Three.js video texture function
-    const videoInit = function (name) {
-      let v = document.getElementById(name); // getting video by name from html
-      console.log(v.src)
-      let videoOut = new THREE.TextureLoader().load(v.src); // initializing three.js video texture constructor
-      videoOut.wrapS = THREE.RepeatWrapping;
-      videoOut.wrapT = THREE.RepeatWrapping;
-      videoOut.repeat.set( 1, 1 );
-      // v.pause(); // start playing videos
-      return videoOut; // output - actually what is passed to array
-    }
+      const videoInit = function (name) {
+        // let v = document.getElementById(name); // getting video by name from html
+        // console.log(v.src)
+        // let mythree = new THREE.CanvasTexture(name)
+        // console.log(mythree)
+        let videoOut = new THREE.CanvasTexture(name); // initializing three.js video texture constructor
+        videoOut.wrapS = THREE.RepeatWrapping;
+        videoOut.wrapT = THREE.RepeatWrapping;
+        videoOut.repeat.set( 1, 1 );
+        // v.pause(); // start playing videos
+        return videoOut; // output - actually what is passed to array
+      }
 
-    // Gallery array
-    let gallery = [];
+      // Gallery array
+      let gallery = [];
 
-    // this method is pushing previously initialized videos in videoInit() function
-    gallery.push(
-        {
-          id: 1,
-          background: videoInit('video_mech'),
-          text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio_text.png'),
-          route: '/portfolio'
-        },
-        {
-          id: 2,
-          background: videoInit('video_third'),
-          text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/blog_text.png'),
-          route: '/blog'
-        },
-        {
-          id: 3,
-          background: videoInit('video_fourth'),
-          text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/contacts_text.png'),
-          route: '/contacts'
-        },
+      // this method is pushing previously initialized videos in videoInit() function
+      gallery.push(
+          {
+            id: 1,
+            background: videoInit('video_mech'),
+            text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio_text.png'),
+            route: '/portfolio'
+          },
+          {
+            id: 2,
+            background: videoInit('video_third'),
+            text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/blog_text.png'),
+            route: '/blog'
+          },
+          {
+            id: 3,
+            background: videoInit('video_fourth'),
+            text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/contacts_text.png'),
+            route: '/contacts'
+          },
 
 
-        // {
-        //   background: videoInit('video_fifth'),
-        //   text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio.png'),
-        //   route: '/contacts'
+          // {
+          //   background: videoInit('video_fifth'),
+          //   text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio.png'),
+          //   route: '/contacts'
 
-        // },
-        // {
-        //   background: videoInit('video_techie'),
-        //   text: new THREE.TextureLoader().load('https://www.ivashnev.com/wp-content/uploads/2020/01/text-test.jpg')
-        // }
-      );
+          // },
+          // {
+          //   background: videoInit('video_techie'),
+          //   text: new THREE.TextureLoader().load('https://www.ivashnev.com/wp-content/uploads/2020/01/text-test.jpg')
+          // }
+        );
       gallery.sort(function(a, b) {
         return a.id - b.id;
       });
 
 
-
-
+    // let canvashader = document.get
+    // let canva = document.getElementById('output').children[0]
     const uniforms = {
       u_color: { value: new THREE.Color(0xffdd33) },
       u_tex:{},
@@ -2051,8 +1999,10 @@ FSS.SVGRenderer.prototype.formatStyle = function(color) {
     let curslide =  ((Math.floor(position) + 0)%gallery.length + gallery.length)%gallery.length;  
     let nextslide = (((Math.floor(position) + 0)%gallery.length +1) + gallery.length)%gallery.length;
     let curposition =  ((position + 0)%gallery.length + gallery.length)%gallery.length;
+    let canva = document.getElementById('output').children[0]
+    gallery[curslide].background = videoInit(canva)
     uniforms.u_tex.value = gallery[curslide].background; 
-    uniforms.u_tex2.value = gallery[nextslide].background;
+    uniforms.u_tex2.value = gallery[nextslide].background = videoInit(canva)
     uniforms.u_text.value = gallery[curslide].text;
     uniforms.u_text2.value = gallery[nextslide].text
     const navigate = Math.round(curposition) !== gallery.length ? Math.round(curposition) : 0 
@@ -2107,6 +2057,11 @@ FSS.SVGRenderer.prototype.formatStyle = function(color) {
     height: 100%;
     width: 100%;
   }
+
+  #output canvas {
+    opacity: 0;
+  }
+
   #controls {
     position: absolute;
     right: 20px;
