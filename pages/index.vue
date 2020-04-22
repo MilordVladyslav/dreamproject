@@ -1849,19 +1849,19 @@ FSS.SVGRenderer.prototype.formatStyle = function(color) {
           {
             id: 1,
             background: {},
-            text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio_text.png'),
+            text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/Helloworld.png'),
             route: '/portfolio'
           },
           {
             id: 2,
             background: {},
-            text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/blog_text.png'),
+            text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/Helloworld.png'),
             route: '/blog'
           },
           {
             id: 3,
             background: {},
-            text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/contacts_text.png'),
+            text: new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/Helloworld.png'),
             route: '/contacts'
           },
 
@@ -1888,8 +1888,8 @@ FSS.SVGRenderer.prototype.formatStyle = function(color) {
       u_color: { value: new THREE.Color(0xffdd33) },
       u_tex:{},
       u_tex2:{},
-      u_text:{value:new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/portfolio_text.png')},
-      u_text2: {value:new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/blog_text.png')},
+      u_text:{value:new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/Helloworld.png')},
+      u_text2: {value:new THREE.TextureLoader().load('https://raw.githubusercontent.com/MilordVladyslav/dreamproject/master/assets/Helloworld.png')},
       u_time: { value: 0.0 },
       progress: {type: 'f', value: 0},
       u_mouse: { value:{ x:0.0, y:0.0 }},
